@@ -1,7 +1,7 @@
 import time
 from typing import List, Dict, Any, Optional
 from presidio_analyzer import AnalyzerEngine, PatternRecognizer, Pattern, EntityRecognizer, RecognizerResult
-from presidio_analyzer.nlp_engine import NlpArtifacts
+from presidio_analyzer.nlp_engine import NlpArtifacts, NlpEngineProvider 
 from presidio_anonymizer import AnonymizerEngine
 from presidio_anonymizer.entities import OperatorConfig
 
@@ -34,7 +34,21 @@ class OrganizationRecognizer(EntityRecognizer):
 class PIIRedactionService:
     def __init__(self):
         print("Loading Presidio NLP Engine...")
-        self.analyzer = AnalyzerEngine()
+        
+        # 2. Configure the lightweight spaCy model
+        configuration = {
+            "nlp_engine_name": "spacy",
+            "models": [{"lang_code": "en", "model_name": "en_core_web_sm"}],
+        }
+        provider = NlpEngineProvider(nlp_configuration=configuration)
+        nlp_engine = provider.create_engine()
+        
+        # 3. Inject the lightweight engine into the Analyzer
+        self.analyzer = AnalyzerEngine(
+            nlp_engine=nlp_engine, 
+            supported_languages=["en"]
+        )
+        
         self.anonymizer = AnonymizerEngine()
         
         # --- UPGRADED CUSTOM RECOGNIZER ---

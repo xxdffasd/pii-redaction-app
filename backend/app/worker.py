@@ -1,6 +1,6 @@
 import ssl
-import eventlet
-eventlet.monkey_patch()
+# import eventlet
+# eventlet.monkey_patch()
 
 import os
 import uuid
