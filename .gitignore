@@ -1,0 +1,25 @@
+# Environments
+backend/venv/
+backend/env/
+.env
+
+# Node & Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.npm/
+
+# Python Cache & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Temporary Outputs & Uploads
+backend/temp_outputs/
+*.zip
+*.pdf
+*.docx
+
+# OS Generated Files
+.DS_Store
+Thumbs.db
