@@ -13,7 +13,7 @@ import docx
 from dotenv import load_dotenv # <-- NEW IMPORT
 
 # Load the secrets from the .env file
-load_dotenv(r"C:/pii-redaction-webapp/backend/venv/app/.env")
+load_dotenv()
 
 # Import our NLP engine
 from app.services.presidio_service import redaction_service
