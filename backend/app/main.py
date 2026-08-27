@@ -19,7 +19,8 @@ from app.models.schemas import RedactionRequest, RedactionResponse
 from app.services.presidio_service import redaction_service
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-TEMP_DIR = r"C:/pii-redaction-webapp/backend/temp_outputs"
+TEMP_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "temp_outputs"))
+
 os.makedirs(TEMP_DIR, exist_ok=True)
 
 def cleanup_file(path: str):

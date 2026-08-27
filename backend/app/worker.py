@@ -25,9 +25,10 @@ celery_app = Celery("redaction_worker", broker=REDIS_URL, backend=REDIS_URL)
 celery_app.conf.broker_use_ssl = {'ssl_cert_reqs': ssl.CERT_NONE}
 celery_app.conf.redis_backend_use_ssl = {'ssl_cert_reqs': ssl.CERT_NONE}
 
-# --- BULLETPROOF PATH RESOLUTION ---
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-TEMP_DIR = r"C:/pii-redaction-webapp/backend/temp_outputs"
+TEMP_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "temp_outputs"))
+
 os.makedirs(TEMP_DIR, exist_ok=True)
 
 @celery_app.task
