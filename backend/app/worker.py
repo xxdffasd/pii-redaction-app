@@ -18,6 +18,9 @@ load_dotenv()
 # Import our NLP engine
 from app.services.presidio_service import redaction_service
 
+# Read backend URL from environment, defaulting to localhost for local development
+BASE_API_URL = os.getenv("BASE_API_URL", "http://localhost:8000/api/v1")
+
 # Fetch the URL securely from the environment
 REDIS_URL = os.getenv("REDIS_URL")
 
@@ -104,7 +107,7 @@ def process_batch_task(file_metadata, entity_list, mask_char):
 
             batch_results.append({
                 "filename": filename,
-                "download_url": f"http://localhost:8000/api/v1/download/{new_filename}",
+                "download_url": f"{BASE_API_URL}/download/{new_filename}",
                 "total_entities_found": result["total_entities_found"],
                 "entities_detected": result["entities_detected"]
             })
@@ -123,7 +126,7 @@ def process_batch_task(file_metadata, entity_list, mask_char):
         with zipfile.ZipFile(zip_path, 'w') as zipf:
             for path in generated_file_paths:
                 zipf.write(path, os.path.basename(path))
-        zip_download_url = f"http://localhost:8000/api/v1/download/{zip_filename}"
+        zip_download_url = f"{BASE_API_URL}/download/{zip_filename}"
 
         # Schedule ZIP cleanup 30 minutes in the future
         cleanup_file_task.apply_async(args=[zip_path], countdown=1800)
